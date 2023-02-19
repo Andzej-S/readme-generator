@@ -64,8 +64,8 @@ const questions = [
 				value: 'cc0-1.0',
 			},
             {
-				name: 'Eclipse Public License 2.0',
-				value: 'epl-2.0',
+				name: 'Eclipse Public License 1.0',
+				value: 'epl-1.0',
 			},
 			{
 				name: 'GNU Affero General Public License v3.0',
@@ -76,8 +76,8 @@ const questions = [
 				value: 'gpl-2.0',
 			},
 			{
-				name: 'GNU Lesser General Public License v2.1',
-				value: 'lgpl-2.1',
+				name: 'GNU Lesser General Public License v3.0',
+				value: 'lgpl-3.0',
 			},
 			{
 				name: 'Mozilla Public 2.0',
@@ -102,20 +102,40 @@ const questions = [
         message: "How to test this application?"
     },
     {
-        // How to ask questions about this project
+        // How to ask questions about this project - email
         type: "input",
-        name: "questions",
-        message: "How to contact project owner and ask questions?"
+        name: "email",
+        message: "What is your email?"
+    },
+    {
+        // How to ask questions about this project - github
+        type: "input",
+        name: "github",
+        message: "What is your github username?"
     },
 ];
 
 // function to write README file
 function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) => {
+        if (err) {
+          console.error("Could not create README.md");
+          return;
+        }
+        console.log(`README.md file has been created successfully at ${path.resolve(fileName)}`);
+    });
 }
 
 // function to initialize program
 function init() {
-
+    return inquirer.prompt(questions)
+    .then((data)=>{
+        const generateReadme = generateMarkdown(data);
+        writeToFile("README.md", generateReadme);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
 }
 
 // function call to initialize program
