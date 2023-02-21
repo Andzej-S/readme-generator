@@ -131,7 +131,7 @@ function init() {
     return inquirer.prompt(questions)
     .then((data)=>{
         const generateReadme = generateMarkdown(data);
-        writeToFile("README.md", generateReadme);
+        writeToFile("generatedREADME.md", generateReadme);
     })
     .catch((error) => {
         console.log(error);
